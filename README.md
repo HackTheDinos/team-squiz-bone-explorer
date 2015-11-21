@@ -30,3 +30,20 @@ __Run Migrations__
 ```
 php artisan migrate
 ```
+
+## Local Development
+
+__Update Hosts File__
+```
+127.0.0.1 bone-explorer.dev
+```
+
+__Serve the App__
+```
+php artisan serve --host=bone-explorer.dev
+```
+
+__Watch Assets While Developing__
+```
+gulp watch
+```

@@ -19,3 +19,7 @@ Route::group(['prefix' => 'app'], function () {
     get('/{slug?}', 'AppController@getIndex')->where('slug', '(.*)?');
 });
 
+
+Route::group(['prefix' => 'api'], function () {
+    Route::controller('search-stub', 'Api\SearchStubController');
+});

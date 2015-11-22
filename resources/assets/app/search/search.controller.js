@@ -160,7 +160,7 @@
                 }
             });
 
-            modalInstance.result.then(function (selectedItem) {
+            modalInstance.result.then(function () {
                 //vm.selected = selectedItem;
             }, function () {
                 //$log.info('Modal dismissed at: ' + new Date());
@@ -171,11 +171,8 @@
     angular.module('boneExplorer.search').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
 
         $scope.result = items;
-        //$scope.selected = {
-        //    item: $scope.items[0]
-        //};
         $scope.ok = function () {
-            $modalInstance.close($scope.selected.item);
+            $modalInstance.close();
         };
 
     });

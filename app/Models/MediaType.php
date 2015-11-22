@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AnimalGroup extends Model
+class MediaType extends Model
 {
     public $timestamps = false;
 }

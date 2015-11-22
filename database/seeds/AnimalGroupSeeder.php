@@ -1,6 +1,6 @@
 <?php
 
-use App\AnimalGroup;
+use App\Models\AnimalGroup;
 use Illuminate\Database\Seeder;
 
 class AnimalGroupSeeder extends Seeder

@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MediaType extends Model
+class Author extends Model
 {
     public $timestamps = false;
 }

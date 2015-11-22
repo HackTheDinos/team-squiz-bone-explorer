@@ -1,6 +1,6 @@
 <?php
 
-use App\Museum;
+use App\Models\Museum;
 use Illuminate\Database\Seeder;
 
 class MuseumSeeder extends Seeder

@@ -90,7 +90,13 @@ class Search
      */
     public function insertDocument(array $doc)
     {
-
+        return $this->client->index(
+            [
+                'index' => env('ES_INDEX'),
+                'type' => 'dino',
+                'body' => $doc
+            ]
+        );
     }
 
     /**
@@ -100,6 +106,15 @@ class Search
      */
     public function insertDocuments(array $docs)
     {
+        foreach ($docs as $doc) {
+            $params['body'][] = [
+                'index' => env('ES_INDEX'),
+                'type' => 'dino',
+                '_id' => uniqid(),
+            ];
+            $params['body'][] = $doc;
+        }
 
+        return $this->client->bulk($params);
     }
 }

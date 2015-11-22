@@ -1,20 +1,16 @@
 <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0;">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Bone Explorer</a>
+        <a class="navbar-brand" href="/">Bone Explorer</a>
     </div>
-    <div class="navbar-collapse collapse" id="search-bar">
+
+    <div id="search-bar" class="hidden-sm hidden-xs">
         <form class="navbar-form" style="width: 65%;" ng-submit="search.submitQuery()">
             <div class="form-group" style="display:inline;">
                 <div class="input-group" style="display:table;">
                     <input class="form-control" name="search" autocomplete="off"
                            autofocus="autofocus" type="text" ng-model="search.query"
                            placeholder="find bones">
-                       <span class="input-group-btn" style="width:1%;">
+                      <span class="input-group-btn" style="width: 1%;">
                         <button class="btn btn-default" type="submit">
                             <span class="fa fa-search"></span>
                         </button>
@@ -25,13 +21,33 @@
     </div>
 </div>
 
+<div class="container-fluid hidden-md hidden-lg">
+    <p>
+
+    <form class="" style="" ng-submit="search.submitQuery()">
+        <div class="form-group" style="display:inline;">
+            <div class="input-group" style="display:table;">
+                <input class="form-control" name="search" autocomplete="off"
+                       autofocus="autofocus" type="text" ng-model="search.query"
+                       placeholder="find bones">
+                   <span class="input-group-btn" style="">
+                    <button class="btn btn-default" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                  </span>
+            </div>
+        </div>
+    </form>
+    </p>
+</div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 page-container" style="border-right: solid 1px #eee;">
             <form ng-submit="search.submitQuery()">
                 <div class="form-group">
                     <label>Author</label>
-                    <ui-select multiple id="author" ng-model="search.filters.author">
+                    <ui-select multiple="true" id="author" ng-model="search.filters.author">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
                                            repeat="author in search.authors | filter: $select.search">
@@ -41,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <label>Museum</label>
-                    <ui-select multiple id="museum" ng-model="search.filters.museum">
+                    <ui-select multiple="true" id="museum" ng-model="search.filters.museum">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
                                            repeat="museum in search.museums | filter: $select.search">
@@ -52,7 +68,7 @@
 
                 <div class="form-group">
                     <label>Media Type</label>
-                    <ui-select multiple id="media-type" ng-model="search.filters.mediaType">
+                    <ui-select multiple="true" id="media-type" ng-model="search.filters.mediaType">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
                                            repeat="mediaType in search.mediaTypes | filter: $select.search">
@@ -63,15 +79,15 @@
 
                 <div class="form-group">
                     <label>Group</label>
-                    <ui-select multiple id="animal-group" ng-model="search.filters.animalGroup">
+                    <ui-select multiple="true" id="animal-group" ng-model="search.filters.animalGroup">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
-                                           repeat="animalGroup in search.animalGroups | filter: $select.search">
+                                           repeat="animalGroup in search.animalGroups| filter: $select.search">
                             <div ng-bind-html="animalGroup.name| highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
-                <button type="submit" class="btn btn-default">Apply</button>
+                <button type="submit" class="btn btn-default btn-block">Apply</button>
             </form>
         </div>
         <div class="col-md-9 page-container">
@@ -84,7 +100,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-4" ng-repeat="result in search.results">
                         <div class="thumbnail">
-                            <img alt="100%x200" style="height: 200px; width: 100%; display: block;"
+                            <img alt="{{ result.name }}" style="height: 200px; width: 100%; display: block;"
                                  ng-src="{{ result.thumbnailUrl }}">
 
                             <div class="caption">

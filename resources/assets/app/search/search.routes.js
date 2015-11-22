@@ -4,7 +4,7 @@
     /** @ngInject */
     function SearchRoutes($stateProvider) {
         $stateProvider.state('app.search', {
-            url: '/',
+            url: '/?q&authors&mediaTypes&animalGroups&museums',
             templateUrl: 'search/search-alt.html',
             controller: 'SearchController',
             controllerAs: 'search'

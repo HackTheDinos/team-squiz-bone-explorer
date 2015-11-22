@@ -43,6 +43,8 @@ class IndexPopulate extends Command
      */
     public function handle()
     {
+        $this->output->progressStart();
+
         $offset = 0;
         $media = Media::with('mediaType', 'scan', 'scan.specimen', 'scan.museum', 'scan.author', 'scan.animalGroup')
             ->limit(self::BATCH_LIMIT)->offset($offset)->get()->toArray();
@@ -51,6 +53,8 @@ class IndexPopulate extends Command
             foreach ($media as $key => $mediaArray) {
                 $media[$key] = $this->flattenNested($mediaArray, true);
             }
+
+            $this->output->progressAdvance(self::BATCH_LIMIT);
 
             $this->search->insertDocuments($media);
 
@@ -68,12 +72,16 @@ class IndexPopulate extends Command
                 $images[$key] = $this->flattenNested($image, true);
             }
 
+            $this->output->progressAdvance(self::BATCH_LIMIT);
+
             $this->search->insertDocuments($images);
 
             $offset += self::BATCH_LIMIT;
             $images = Image::with('scan', 'scan.specimen', 'scan.museum', 'scan.author', 'scan.animalGroup')
                 ->limit(self::BATCH_LIMIT)->offset($offset)->get()->toArray();
         }
+
+        $this->output->progressFinish();
     }
 
     /**

@@ -1,6 +1,6 @@
 <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0;">
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">Bone Explorer</a>
+        <a class="navbar-brand" href="/">Bone Explorer</a>
     </div>
 
     <div id="search-bar" class="hidden-sm hidden-xs">
@@ -30,11 +30,11 @@
                 <input class="form-control" name="search" autocomplete="off"
                        autofocus="autofocus" type="text" ng-model="search.query"
                        placeholder="find bones">
-                       <span class="input-group-btn" style="">
-                        <button class="btn btn-default" type="submit">
-                            <span class="fa fa-search"></span>
-                        </button>
-                      </span>
+                   <span class="input-group-btn" style="">
+                    <button class="btn btn-default" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                  </span>
             </div>
         </div>
     </form>
@@ -100,7 +100,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-4" ng-repeat="result in search.results">
                         <div class="thumbnail">
-                            <img alt="100%x200" style="height: 200px; width: 100%; display: block;"
+                            <img alt="{{ result.name }}" style="height: 200px; width: 100%; display: block;"
                                  ng-src="{{ result.thumbnailUrl }}">
 
                             <div class="caption">

@@ -10,7 +10,7 @@
                               museumResource,
                               searchResource) {
         var vm = this;
-
+        vm.isLoaded = false;
         vm.filters = {
             author: [],
             museum: [],
@@ -18,9 +18,9 @@
             mediaType: []
         };
 
-        searchResource.$promise.then(function (response) {
-            vm.results = response.data;
-        });
+        //searchResource.$promise.then(function (response) {
+        //    vm.results = response.data;
+        //});
 
         animalGroupResource.$promise.then(function (response) {
             vm.animalGroups = response.data;
@@ -38,9 +38,6 @@
             vm.museums = response.data;
         });
 
-        // Submit new query without filters
-        // Submit query with already set filters
-        // Apply filters on already searched query
         vm.submitQuery = function () {
             var params = {q: vm.query};
             var query = vm.query || '';
@@ -56,11 +53,18 @@
             query += vm.filters.mediaType.map(function (item) {
                 return '&mediaTypes[]=' + item.name;
             }).join('');
+            vm.isLoaded = false;
             $http.get('/api/search-stub?' + query)
             .success(function (response) {
                 $location.search(params);
                 vm.results = response.data;
+                vm.searchedQuery = vm.query;
+            })
+            .finally(function () {
+                vm.isLoaded = true;
             });
         };
+
+        vm.submitQuery();
     }
 })(angular);

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 
 class MediaTypeController extends Controller
 {
-    public function index()
+    public function getIndex()
     {
         return ApiResponseFactory::MakeEnvelope(MediaType::orderBy('name', 'asc')->get()->toArray());
     }

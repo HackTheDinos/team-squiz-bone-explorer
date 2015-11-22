@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 
 class MuseumController extends Controller
 {
-    public function index()
+    public function getIndex()
     {
         return ApiResponseFactory::MakeEnvelope(Museum::orderBy('name', 'asc')->get()->toArray());
     }

@@ -7,6 +7,8 @@ use Elasticsearch\Client;
 
 class Search
 {
+    const BATCH_INSERT_LIMIT = 5;
+
     /** @var Client */
     private $client;
     private $type = "dinos";
@@ -63,10 +65,12 @@ class Search
                     $this->type => [
                         'properties' => [
                             'created_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'updated_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'filePath' => [
                                 'type' => 'string',
@@ -168,10 +172,12 @@ class Search
                                 'type' => 'integer',
                             ],
                             'scanSpecimenCreated_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'scanSpecimenUpdated_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'scanSpecimenSpecimenNumber' => [
                                 'type' => 'integer',
@@ -223,16 +229,17 @@ class Search
      *
      * @return array
      */
-    public function search(array $terms)
+    public function search(array $terms, $from = 0, $size = 25, $group = false)
     {
         $params = [
             'index' => env('ES_INDEX'),
             'type' => $this->type,
             'body' => [
+                'from' => $from,
+                'size' => $size,
                 'query' => [
                     'bool' => [
                         'must' => [
-//                            ['match' => ['scanAuthorName' => 'hendrickson']],
                         ],
                         'should' => [
                             'multi_match' => [
@@ -253,6 +260,30 @@ class Search
 
         foreach ($terms['filter'] as $key => $value) {
             $params['body']['query']['bool']['must'][] = ['match' => [$key => $value]];
+        }
+
+        if ($group) {
+            $params['body']['aggs'] = [
+                "top-scanIds" => [
+                    "terms" => [
+                        "field" => "scanScanId"
+                    ],
+                    "aggs" => [
+                        "top_scanIds_hits" => [
+                            "top_hits" => [
+                                "sort" => [
+                                    [
+                                        "_score" => [
+                                            "order" => "desc"
+                                        ]
+                                    ]
+                                ],
+                                "size" => 1
+                            ]
+                        ]
+                    ]
+                ]
+            ];
         }
 
         return $this->client->search($params);
@@ -292,15 +323,19 @@ class Search
      */
     public function insertDocuments(array $docs)
     {
-        foreach ($docs as $doc) {
+        $params = [];
+        while (!empty($docs)) {
+            $doc = array_shift($docs);
             $params['body'][] = [
-                'index' => env('ES_INDEX'),
-                'type' => 'dino',
-                '_id' => uniqid(),
+                'index' => [
+                    '_index' => env('ES_INDEX'),
+                    '_type' => $this->type,
+                    '_id' => uniqid(),
+                ]
             ];
             $params['body'][] = $doc;
-        }
 
-        return $this->client->bulk($params);
+            $results = $this->client->bulk($params);
+        }
     }
 }

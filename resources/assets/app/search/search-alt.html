@@ -101,14 +101,19 @@
                     <div class="col-sm-6 col-md-4" ng-repeat="result in search.results">
                         <div class="thumbnail">
                             <img alt="{{ result.name }}" style="height: 200px; width: 100%; display: block;"
-                                 ng-src="{{ result.thumbnailUrl }}">
+                                 ng-src="http://localhost:3000/{{ result.source.fileUrl }}">
 
                             <div class="caption">
                                 <h3>{{ result.source.scanSpecimenSpeciesScientificName }}</h3>
-
-                                <p>{{ result.source.scanSpecimenSpeciesCommonName }}</p>
-
+                                <small>{{ result.source.scanSpecimenSpeciesCommonName }}</small>
+                                <hr>
+                                <p>Author: {{ result.source.scanAuthorName }}</p>
+                                <p>Group: {{ result.source.scanAnimal_groupName }}</p>
+                                <p>Museum: {{ result.source.scanMuseumName }}</p>
+                                <p>Media Type: {{ result.source.media_typeName }}</p>
                                 <!--<p><a href="#" class="btn btn-primary" role="button">...</a></p>-->
+                                <button type="button" class="btn btn-default" ng-click="search.open('lg', result)">...</button>
+
                             </div>
                         </div>
                     </div>
@@ -117,3 +122,48 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{ result.source.scanSpecimenSpeciesScientificName}}
+            <small>{{ result.source.scanSpecimenSpeciesCommonName }}</small>
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <img alt="{{ result.name }}" class="img-responsive"
+                     ng-src="http://localhost:3000/{{ result.source.fileUrl }}">
+            </div>
+            <div class="col-sm-6">
+                <!--<iframe width="auto" height="290" src="https://sketchfab.com/models/c6d83594bcef4609aee4df9ddc653aeb/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>-->
+            </div>
+        </div>
+
+        <hr>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>General Categories</h4>
+                <p>Author: {{ result.source.scanAuthorName }}</p>
+                <p>Group: {{ result.source.scanAnimal_groupName }}</p>
+                <p>Museum: {{ result.source.scanMuseumName }}</p>
+                <p>Media Type: {{ result.source.media_typeName }}</p>
+            </div>
+            <div class="col-sm-6">
+                <h4>Scan Info</h4>
+                <p>Date: {{ result.source.scanScanTime }}</p>
+                <p>Location: {{ result.source.scanLocation }}</p>
+                <p>Current: {{ result.source.scanCurrent }}</p>
+                <p>Voxel Size: {{ result.source.scanVoxelSize }}</p>
+                <p>Voltage: {{ result.source.scanVoltage }}</p>
+                <p>Sequence: {{ result.source.scanSequence }}</p>
+                <p>Quality: {{ result.source.scanScanQuality }}</p>
+            </div>
+        </div>
+        <h4>STL Model</h4>
+        <iframe width="100%" height="400px" src="https://sketchfab.com/models/c6d83594bcef4609aee4df9ddc653aeb/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    </div>
+</script>

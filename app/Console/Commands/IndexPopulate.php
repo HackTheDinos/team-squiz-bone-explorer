@@ -9,6 +9,8 @@ use Illuminate\Console\Command;
 
 class IndexPopulate extends Command
 {
+    const BATCH_LIMIT = 1000;
+
     /**
      * The name and signature of the console command.
      *
@@ -41,23 +43,45 @@ class IndexPopulate extends Command
      */
     public function handle()
     {
+        $this->output->progressStart();
+
+        $offset = 0;
         $media = Media::with('mediaType', 'scan', 'scan.specimen', 'scan.museum', 'scan.author', 'scan.animalGroup')
-            ->get()->toArray();
+            ->limit(self::BATCH_LIMIT)->offset($offset)->get()->toArray();
 
-        foreach ($media as $key => $mediaArray) {
-            $media[$key] = $this->flattenNested($mediaArray, true);
+        while (!empty($media)) {
+            foreach ($media as $key => $mediaArray) {
+                $media[$key] = $this->flattenNested($mediaArray, true);
+            }
+
+            $this->output->progressAdvance(self::BATCH_LIMIT);
+
+            $this->search->insertDocuments($media);
+
+            $offset += self::BATCH_LIMIT;
+            $media = Media::with('mediaType', 'scan', 'scan.specimen', 'scan.museum', 'scan.author', 'scan.animalGroup')
+                ->limit(self::BATCH_LIMIT)->offset($offset)->get()->toArray();
         }
 
-        $responses = $this->search->insertDocuments($media);
-
+        $offset = 0;
         $images = Image::with('scan', 'scan.specimen', 'scan.museum', 'scan.author', 'scan.animalGroup')
-            ->get()->toArray();
+            ->limit(self::BATCH_LIMIT)->offset($offset)->get()->toArray();
 
-        foreach ($images as $key => $image) {
-            $images[$key] = $this->flattenNested($image, true);
+        while (!empty($images)) {
+            foreach ($images as $key => $image) {
+                $images[$key] = $this->flattenNested($image, true);
+            }
+
+            $this->output->progressAdvance(self::BATCH_LIMIT);
+
+            $this->search->insertDocuments($images);
+
+            $offset += self::BATCH_LIMIT;
+            $images = Image::with('scan', 'scan.specimen', 'scan.museum', 'scan.author', 'scan.animalGroup')
+                ->limit(self::BATCH_LIMIT)->offset($offset)->get()->toArray();
         }
 
-        $responses = $this->search->insertDocuments($images);
+        $this->output->progressFinish();
     }
 
     /**

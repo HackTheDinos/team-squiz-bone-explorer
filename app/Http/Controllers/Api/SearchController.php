@@ -26,17 +26,27 @@ class SearchController extends Controller
      */
     public function getIndex(Request $request)
     {
-        $terms = ['keyword' => [], 'filter' => []];
+
+        $terms = [];
+        $group = false;
+        $from = 0;
+        $size = 25;
 
         foreach ($request->all() as $key => $value) {
                 if ('q' === $key) {
-                        $terms['keyword'] = $value;
+                    $terms['keyword'] = $value;
+                } elseif ('group' === $key) {
+                    $group = true;
+                } elseif ('from' === $key) {
+                    $from = $value;
+                } elseif ('size' === $key) {
+                    $size = $value;
                 } else {
-                        $terms['filter'][$key] = strtolower($value);
+                    $terms['filter'][$key] = strtolower($value);
                 }
         }
 
-        $results = $this->search->search($terms);
+        $results = $this->search->search($terms, $from, $size, $group);
         return ApiResponseFactory::MakeEnvelope($this->parseResultsToResponse($results));
     }
 
@@ -48,10 +58,12 @@ class SearchController extends Controller
             return [];
         }
 
-        foreach ($results['hits']['hits'] as $result) {
+        foreach ($results['hits']['hits'] as $key => $result) {
             $data[] = [
                 'id' => $result['_id'],
-                'source' => $result['_source']
+                'maxScore' => $results['hits']['max_score'],
+                'score' => $result['_score'],
+                'source' => $result['_source'],
             ];
         }
 

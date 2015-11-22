@@ -18,6 +18,7 @@ class SearchController extends Controller
     {
         $this->search = $search;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,13 +26,35 @@ class SearchController extends Controller
      */
     public function getIndex(Request $request)
     {
+        $terms = [];
+
         foreach ($request->all() as $key => $value) {
-            if ('q' === $key) {
-                // Fuzzy search.
-            }
-            else {
-                // Faceted search
-            }
+                if ('q' === $key) {
+                        $terms['keyword'] = $value;
+                } else {
+                        // Faceted search
+                }
         }
+
+        $results = $this->search->search($terms);
+        return ApiResponseFactory::MakeEnvelope($this->parseResultsToResponse($results));
+    }
+
+    protected function parseResultsToResponse(array $results)
+    {
+        $data = [];
+
+        if (empty($results['hits'])) {
+            return [];
+        }
+
+        foreach ($results['hits']['hits'] as $result) {
+            $data[] = [
+                'id' => $result['_id'],
+                'source' => $result['_source']
+            ];
+        }
+
+        return $data;
     }
 }

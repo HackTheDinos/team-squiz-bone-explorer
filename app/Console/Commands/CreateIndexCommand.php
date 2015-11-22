@@ -22,7 +22,7 @@ class CreateIndexCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create the elasticsearch index';
 
     /**
      * Create a new command instance.
@@ -42,6 +42,8 @@ class CreateIndexCommand extends Command
      */
     public function handle()
     {
-        //
+        $this->info("Creating elasticsearch index");
+        $this->search->createIndex();
+        $this->search->insertDocument(array());
     }
 }

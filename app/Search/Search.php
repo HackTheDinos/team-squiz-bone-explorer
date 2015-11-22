@@ -9,6 +9,7 @@ class Search
 {
     /** @var Client */
     private $client;
+    private $type = "dinos";
 
     public function __construct()
     {
@@ -23,26 +24,102 @@ class Search
      */
     public function createIndex()
     {
+        // Try to delete the index if it already exists.
+        try {
+            $this->client->indices()->delete(['index' => env('ES_INDEX')]);
+        }
+        catch (\Exception $e) {
 
-        $create = [
-            'index' => 'my_index',
+        }
+
+        // Create the mapping
+        $params = [
+            'index' => env('ES_INDEX'),
             'body' => [
                 'settings' => [
-                    'number_of_shards' => 3,
-                    'number_of_replicas' => 2
+                    'number_of_shards' => 1,
+                    'number_of_replicas' => 0,
+                    'analysis' => [
+                        'filter' => [
+                            'autocomplete_filter' => [
+                                'type' => 'ngram',
+                                'min_gram' => 3,
+                                'max_gram' => 20,
+                            ],
+                        ],
+                        'analyzer' => [
+                            'autocomplete' => [
+                                'type' => 'custom',
+                                'tokenizer' => 'standard',
+                                'filter' => [
+                                    'lowercase',
+                                    'autocomplete_filter',
+                                ]
+                            ]
+                        ]
+                    ]
                 ],
                 'mappings' => [
-                    'my_type' => [
-                        '_source' => [
-                            'enabled' => true,
-                            'properties' => [
-                                'first_name' => [
-                                    'type' => 'string',
-                                    'analyzer' => 'standard'
-                                ],
-                                'age' => [
-                                    'type' => 'integer'
-                                ]
+                    $this->type => [
+                        'properties' => [
+                            'speciesCommonName' => [
+                                'type' => 'string',
+                                'analyzer' => 'autocomplete',
+                            ],
+                            'speciesScientificName' => [
+                                'type' => 'string',
+                                'analyzer' => 'autocomplete',
+                            ],
+                            'scanId' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard', // this may need to change.
+                            ],
+                            'author' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'museum' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanQuality' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard', // this may need to change.
+                            ],
+                            'fileLocation' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard', // this may need to change.
+                            ],
+                            'scanTime' => [
+                                'type' => 'date',
+                            ],
+                            'voltage' => [
+                                'type' => 'double',
+                            ],
+                            'imageCount' => [
+                                'type' => 'integer',
+                            ],
+                            'voxelSize' => [
+                                'type' => 'integer',
+                            ],
+                            'averaging' => [
+                                'type' => 'integer',
+                            ],
+                            'current' => [
+                                'type' => 'double',
+                            ],
+                            'timingValue' => [
+                                'type' => 'double',
+                            ],
+                            'imageDirectory' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'sequence' => [
+                                'type' => 'integer',
+                            ],
+                            'images' => [
+                                'type' => 'nested',
                             ]
                         ]
                     ]
@@ -50,6 +127,7 @@ class Search
             ]
         ];
 
+        $this->client->indices()->create($params);
     }
 
     /**
@@ -64,13 +142,26 @@ class Search
     }
 
     /**
-     * Faceted search
+     * @param array $terms
      *
-     * @param array $params
+     * @return array
      */
-    public function search(array $params)
+    public function search(array $terms)
     {
+        $params = [
+            'index' => env('ES_INDEX'),
+            'type' => $this->type,
+            'body' => [
+                'query' => [
+                    'multi_match' => [
+                        'query' => $terms['keyword'],
+                        'fields' => ["speciesCommonName", "speciesScientificName"]
+                    ]
+                ]
+            ]
+        ];
 
+        return $this->client->search($params);
     }
 
     /**
@@ -90,13 +181,14 @@ class Search
      */
     public function insertDocument(array $doc)
     {
-        return $this->client->index(
-            [
-                'index' => env('ES_INDEX'),
-                'type' => 'dino',
-                'body' => $doc
-            ]
-        );
+        $params = [
+            'index' => env('ES_INDEX'),
+            'type' => $this->type,
+            'body' => $doc
+        ];
+
+        // Document will be indexed to my_index/my_type/<autogenerated ID>
+        return = $this->client->index($params);
     }
 
     /**

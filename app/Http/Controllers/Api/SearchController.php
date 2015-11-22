@@ -26,13 +26,13 @@ class SearchController extends Controller
      */
     public function getIndex(Request $request)
     {
-        $terms = [];
+        $terms = ['keyword' => [], 'filter' => []];
 
         foreach ($request->all() as $key => $value) {
                 if ('q' === $key) {
                         $terms['keyword'] = $value;
                 } else {
-                        // Faceted search
+                        $terms['filter'][$key] = strtolower($value);
                 }
         }
 

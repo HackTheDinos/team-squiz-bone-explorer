@@ -230,13 +230,30 @@ class Search
             'type' => $this->type,
             'body' => [
                 'query' => [
-                    'multi_match' => [
-                        'query' => $terms['keyword'],
-                        'fields' => ["scanSpecimenSpeciesCommonName", "scanSpecimenSpeciesScientificName"]
-                    ]
-                ]
-            ]
+                    'bool' => [
+                        'must' => [
+//                            ['match' => ['scanAuthorName' => 'hendrickson']],
+                        ],
+                        'should' => [
+                            'multi_match' => [
+                                'query' => $terms['keyword'],
+                                'fields' => [
+                                    "scanSpecimenSpeciesCommonName",
+                                    "scanSpecimenSpeciesScientificName"
+                                ],
+                            ]
+                        ]
+
+                    ],
+
+                ],
+
+            ],
         ];
+
+        foreach ($terms['filter'] as $key => $value) {
+            $params['body']['query']['bool']['must'][] = ['match' => [$key => $value]];
+        }
 
         return $this->client->search($params);
     }

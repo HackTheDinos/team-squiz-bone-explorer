@@ -8,11 +8,16 @@
         <a class="navbar-brand" href="#">Bone Explorer</a>
     </div>
     <div class="navbar-collapse collapse" id="searchbar">
-        <form class="navbar-form" style="width: 65%;">
+        <form class="navbar-form" style="width: 65%;" ng-submit="search.submitQuery(search.query)">
             <div class="form-group" style="display:inline;">
                 <div class="input-group" style="display:table;">
-                    <input class="form-control" name="search" autocomplete="off" autofocus="autofocus" type="text">
-                    <span class="input-group-addon" style="width:1%;"><span class="fa fa-search"></span></span>
+                    <input class="form-control" name="search" autocomplete="off"
+                           autofocus="autofocus" type="text" ng-model="search.query">
+                       <span class="input-group-btn" style="width:1%;">
+                        <button class="btn btn-default" type="submit">
+                            <span class="fa fa-search"></span>
+                        </button>
+                      </span>
                 </div>
             </div>
         </form>

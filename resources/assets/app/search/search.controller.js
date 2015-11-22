@@ -2,7 +2,7 @@
     angular.module('boneExplorer.search').controller('SearchController', SearchController);
 
     /** @ngInject */
-    function SearchController(searchResource, animalGroupResource, authorResource, mediaTypeResource, museumResource) {
+    function SearchController($location, animalGroupResource, authorResource, mediaTypeResource, museumResource, searchResource) {
         var vm = this;
 
         vm.filters = {
@@ -13,7 +13,6 @@
         };
 
         searchResource.$promise.then(function (response) {
-            console.log(response);
             vm.results = response.data;
         });
 
@@ -32,5 +31,14 @@
         museumResource.$promise.then(function (response) {
             vm.museums = response.data;
         });
+
+        vm.submitQuery = function (query) {
+            var params = {q: query};
+            searchResource.$get(params);
+            searchResource.$promise.then(function (response) {
+                $location.search(params);
+                vm.results = response.data;
+            });
+        };
     }
 })(angular);

@@ -132,7 +132,7 @@
             };
 
 
-            $http.get('/api/search-stub?' + query)
+            $http.get('/api/search?' + query)
             .success(function (response) {
                 $state.go($state.current, params, {notify: false});
                 vm.results = response.data;

@@ -93,7 +93,7 @@
         <div class="col-md-9 page-container">
             <spinner is-loaded="search.isLoaded">
                 <p>
-                    <span>{{ search.results.length }} results</span>
+                    <span>{{ search.results.length }} result<span ng-if="search.results.length !== 1">s</span></span>
                     <span ng-if="search.searchedQuery"> for <strong>"{{ search.searchedQuery }}"</strong></span>
                 </p>
 
@@ -104,11 +104,11 @@
                                  ng-src="{{ result.thumbnailUrl }}">
 
                             <div class="caption">
-                                <h3>{{ result.name }}</h3>
+                                <h3>{{ result.source.scanSpecimenSpeciesScientificName }}</h3>
 
-                                <p>{{ result.description }}</p>
+                                <p>{{ result.source.scanSpecimenSpeciesCommonName }}</p>
 
-                                <p><a href="#" class="btn btn-primary" role="button">...</a></p>
+                                <!--<p><a href="#" class="btn btn-primary" role="button">...</a></p>-->
                             </div>
                         </div>
                     </div>

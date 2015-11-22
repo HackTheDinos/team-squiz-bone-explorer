@@ -23,7 +23,7 @@
     "angular-resource": "~1.4.7",
     "angular-animate": "~1.4.7",
     "font-awesome": "~4.4.0",
-    "ui-select": "angular-ui-select#~0.13.2",
+    "ui-select": "angular-ui-select#~0.13.1",
     "bootswatch": "~3.3.5+4"
   },
   "resolutions": {

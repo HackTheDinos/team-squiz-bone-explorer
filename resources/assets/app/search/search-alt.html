@@ -27,7 +27,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 page-container" style="border-right: solid 1px #eee;">
+        <div class="col-md-3 page-container" style="border-right: solid 1px #eee;">
             <form ng-submit="search.submitQuery()">
                 <div class="form-group">
                     <label>Author</label>
@@ -74,7 +74,7 @@
                 <button type="submit" class="btn btn-default">Apply</button>
             </form>
         </div>
-        <div class="col-sm-9 page-container">
+        <div class="col-md-9 page-container">
             <spinner is-loaded="search.isLoaded">
                 <p>
                     <span>{{ search.results.length }} results</span>

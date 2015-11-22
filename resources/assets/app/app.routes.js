@@ -2,7 +2,8 @@
     angular.module('boneExplorer').config(AppRoutes);
 
     /** @ngInject */
-    function AppRoutes($stateProvider, $urlRouterProvider) {
+    function AppRoutes($locationProvider, $stateProvider, $urlRouterProvider) {
+        $locationProvider.html5Mode(true);
         $stateProvider.state('app', {
             abstract: true,
             templateUrl: 'app.html'

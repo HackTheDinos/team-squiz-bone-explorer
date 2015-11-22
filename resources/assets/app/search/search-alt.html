@@ -47,7 +47,7 @@
             <form ng-submit="search.submitQuery()">
                 <div class="form-group">
                     <label>Author</label>
-                    <ui-select multiple id="author" ng-model="search.filters.author">
+                    <ui-select multiple="true" id="author" ng-model="search.filters.author">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
                                            repeat="author in search.authors | filter: $select.search">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <label>Museum</label>
-                    <ui-select multiple id="museum" ng-model="search.filters.museum">
+                    <ui-select multiple="true" id="museum" ng-model="search.filters.museum">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
                                            repeat="museum in search.museums | filter: $select.search">
@@ -68,7 +68,7 @@
 
                 <div class="form-group">
                     <label>Media Type</label>
-                    <ui-select multiple id="media-type" ng-model="search.filters.mediaType">
+                    <ui-select multiple="true" id="media-type" ng-model="search.filters.mediaType">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
                                            repeat="mediaType in search.mediaTypes | filter: $select.search">
@@ -79,10 +79,10 @@
 
                 <div class="form-group">
                     <label>Group</label>
-                    <ui-select multiple id="animal-group" ng-model="search.filters.animalGroup">
+                    <ui-select multiple="true" id="animal-group" ng-model="search.filters.animalGroup">
                         <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
-                                           repeat="animalGroup in search.animalGroups | filter: $select.search">
+                                           repeat="animalGroup in search.animalGroups| filter: $select.search">
                             <div ng-bind-html="animalGroup.name| highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>

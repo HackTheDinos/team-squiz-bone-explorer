@@ -51,12 +51,11 @@
                 <div class="title">Bone Explorer</div>
 
                 <div class="search-container">
-                    <form action="app">
+                    <form action="app/">
                         <div class="form-group" style="display:inline;">
                             <div class="input-group" style="display:table;">
-                                <input class="form-control" name="search" autocomplete="off"
+                                <input class="form-control" name="q" autocomplete="off"
                                        autofocus="autofocus" type="text"
-                                       name="q"
                                        placeholder="find bones">
                                 <span class="input-group-btn" style="">
                                     <button class="btn btn-default" type="submit">

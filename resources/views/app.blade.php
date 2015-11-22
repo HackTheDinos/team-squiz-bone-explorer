@@ -2,6 +2,7 @@
 <html ng-app="boneExplorer" ng-strict-di>
     <head>
         <title>Bone Explorer</title>
+        <base href="/app/">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 

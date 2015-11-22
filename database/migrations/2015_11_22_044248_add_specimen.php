@@ -32,8 +32,6 @@ class AddSpecimen extends Migration
             $table->string('voxelSize');
             $table->integer('imageCount');
             $table->string('current');
-            $table->string('stlFile');
-            $table->string('vglFile');
             $table->string('sequence');
             $table->integer('specimenId')->unsigned();
             $table->foreign('specimenId')->references('id')->on('specimens');
@@ -50,6 +48,7 @@ class AddSpecimen extends Migration
             $table->timestamps();
             $table->string('filePath');
             $table->string('fileName');
+            $table->string('fileUrl');
             $table->integer('scanId')->unsigned();
             $table->foreign('scanId')->references('id')->on('scans');
         });
@@ -59,6 +58,7 @@ class AddSpecimen extends Migration
             $table->timestamps();
             $table->string('filePath');
             $table->string('fileName');
+            $table->string('fileUrl');
             $table->integer('scanId')->unsigned();
             $table->foreign('scanId')->references('id')->on('scans');
             $table->integer('mediaTypeId')->unsigned();

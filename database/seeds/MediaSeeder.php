@@ -11,6 +11,12 @@ class MediaSeeder extends Seeder
     {
         if (class_exists('Faker\Factory')) {
             $faker = Faker\Factory::create();
+            $images = [
+                'img/eusthenopteron_foordi.jpg',
+                'img/iridotriton_hechti.jpg',
+                'img/sipalocyon_sp.jpg',
+                'img/teinolophos_trusleri.jpg',
+            ];
 
             $scans = Scan::all()->all();
             $mediaTypes = MediaType::all()->all();
@@ -23,6 +29,7 @@ class MediaSeeder extends Seeder
                             'filePath' => '/' . $faker->word,
                             'fileName' => $faker->word . $faker->randomNumber(2)
                                 . '.' . $faker->randomElement(['stl','vgl','mov','dct']),
+                            'fileUrl' => $faker->randomElement($images),
                             'scanId' => $scan->id,
                             'mediaTypeId' => $faker->randomElement($mediaTypes)->id,
                         ]

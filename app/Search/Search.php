@@ -9,6 +9,7 @@ class Search
 {
     /** @var Client */
     private $client;
+    private $type = "dinos";
 
     public function __construct()
     {
@@ -23,84 +24,188 @@ class Search
      */
     public function createIndex()
     {
-//        $this->client->indices()->delete(['index' => env('ES_INDEX')]);
+        // Try to delete the index if it already exists.
+        try {
+            $this->client->indices()->delete(['index' => env('ES_INDEX')]);
+        }
+        catch (\Exception $e) {
+
+        }
+
+        // Create the mapping
         $params = [
             'index' => env('ES_INDEX'),
             'body' => [
                 'settings' => [
                     'number_of_shards' => 1,
                     'number_of_replicas' => 0,
+                    'analysis' => [
+                        'filter' => [
+                            'autocomplete_filter' => [
+                                'type' => 'ngram',
+                                'min_gram' => 3,
+                                'max_gram' => 20,
+                            ],
+                        ],
+                        'analyzer' => [
+                            'autocomplete' => [
+                                'type' => 'custom',
+                                'tokenizer' => 'standard',
+                                'filter' => [
+                                    'lowercase',
+                                    'autocomplete_filter',
+                                ]
+                            ]
+                        ]
+                    ]
                 ],
                 'mappings' => [
-                    'dino' => [
+                    $this->type => [
                         'properties' => [
-                            'speciesCommonName' => [
+                            'created_at' => [
+                                'type' => 'date',
+                            ],
+                            'updated_at' => [
+                                'type' => 'date',
+                            ],
+                            'filePath' => [
                                 'type' => 'string',
                                 'analyzer' => 'standard',
                             ],
-                            'speciesScientificName' => [
+                            'filePath' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'fileName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'fileUrl' => [
                                 'type' => 'string',
                                 'analyzer' => 'standard',
                             ],
                             'scanId' => [
                                 'type' => 'string',
-                                'analyzer' => 'standard', // this may need to change.
+                                'analyzer' => 'standard',
                             ],
-                            'author' => [
+                            'mediaTypeId' => [
                                 'type' => 'string',
                                 'analyzer' => 'standard',
                             ],
-                            'museum' => [
+                            'media_typeId' => [
                                 'type' => 'string',
                                 'analyzer' => 'standard',
                             ],
-                            'scanQuality' => [
+                            'mediaTypeName' => [
                                 'type' => 'string',
-                                'analyzer' => 'standard', // this may need to change.
+                                'analyzer' => 'standard',
                             ],
-                            'fileLocation' => [
+                            'scanCreated_at' => [
                                 'type' => 'string',
-                                'analyzer' => 'standard', // this may need to change.
+                                'analyzer' => 'standard',
                             ],
-                            'scanTime' => [
+                            'scanUpdated_at' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanScanId' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanScanQuality' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanFileDirectory' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanLocation' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanScanTime' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanVoltage' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanVoxelSize' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanImageCount' => [
+                                'type' => 'integer',
+                            ],
+                            'scanCurrent' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanSequence' => [
+                                'type' => 'integer',
+                            ],
+                            'mediaTypeName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'mediaTypeName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanSpecimenId' => [
+                                'type' => 'integer',
+                            ],
+                            'scanMuseumId' => [
+                                'type' => 'integer',
+                            ],
+                            'scanAuthorId' => [
+                                'type' => 'integer',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanAnimalGroupId' => [
+                                'type' => 'integer',
+                            ],
+                            'scanSpecimenCreated_at' => [
                                 'type' => 'date',
                             ],
-                            'voltage' => [
-                                'type' => 'double',
+                            'scanSpecimenUpdated_at' => [
+                                'type' => 'date',
                             ],
-                            'imageCount' => [
+                            'scanSpecimenSpecimenNumber' => [
                                 'type' => 'integer',
                             ],
-                            'voxelSize' => [
-                                'type' => 'integer',
+                            'scanSpecimenSpeciesCommonName' => [
+                                'type' => 'string',
+                                'analyzer' => 'autocomplete',
                             ],
-                            'averaging' => [
-                                'type' => 'integer',
+                            'scanSpecimenSpeciesScientificName' => [
+                                'type' => 'string',
+                                'analyzer' => 'autocomplete',
                             ],
-                            'current' => [
-                                'type' => 'double',
-                            ],
-                            'timingValue' => [
-                                'type' => 'double',
-                            ],
-                            'imageDirectory' => [
+                            'scanMuseumName' => [
                                 'type' => 'string',
                                 'analyzer' => 'standard',
                             ],
-                            'sequence' => [
+                            'scanAuthorName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanAnimal_grouId' => [
                                 'type' => 'integer',
                             ],
-                            'images' => [
-                                'type' => 'nested',
-                            ]
+                            'scanAnimal_groupName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
                         ]
                     ]
                 ]
             ]
         ];
-        
-        $this->client->indices()->create($params);
 
+        $this->client->indices()->create($params);
     }
 
     /**
@@ -110,18 +215,30 @@ class Search
      */
     public function getSchema()
     {
-
         return [];
     }
 
     /**
-     * Faceted search
+     * @param array $terms
      *
-     * @param array $params
+     * @return array
      */
-    public function search(array $params)
+    public function search(array $terms)
     {
+        $params = [
+            'index' => env('ES_INDEX'),
+            'type' => $this->type,
+            'body' => [
+                'query' => [
+                    'multi_match' => [
+                        'query' => $terms['keyword'],
+                        'fields' => ["scanSpecimenSpeciesCommonName", "scanSpecimenSpeciesScientificName"]
+                    ]
+                ]
+            ]
+        ];
 
+        return $this->client->search($params);
     }
 
     /**
@@ -141,7 +258,14 @@ class Search
      */
     public function insertDocument(array $doc)
     {
+        $params = [
+            'index' => env('ES_INDEX'),
+            'type' => $this->type,
+            'body' => $doc
+        ];
 
+        // Document will be indexed to my_index/my_type/<autogenerated ID>
+        return $this->client->index($params);
     }
 
     /**
@@ -151,6 +275,15 @@ class Search
      */
     public function insertDocuments(array $docs)
     {
+        foreach ($docs as $doc) {
+            $params['body'][] = [
+                'index' => env('ES_INDEX'),
+                'type' => 'dino',
+                '_id' => uniqid(),
+            ];
+            $params['body'][] = $doc;
+        }
 
+        return $this->client->bulk($params);
     }
 }

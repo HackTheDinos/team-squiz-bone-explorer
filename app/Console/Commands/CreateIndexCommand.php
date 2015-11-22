@@ -44,5 +44,6 @@ class CreateIndexCommand extends Command
     {
         $this->info("Creating elasticsearch index");
         $this->search->createIndex();
+        $this->search->insertDocument(array());
     }
 }

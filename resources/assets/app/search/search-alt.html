@@ -130,8 +130,16 @@
         </h3>
     </div>
     <div class="modal-body">
-        <img alt="{{ result.name }}" class="img-responsive"
-             ng-src="http://localhost:3000/{{ result.source.fileUrl }}">
+        <div class="row">
+            <div class="col-sm-6">
+                <img alt="{{ result.name }}" class="img-responsive"
+                     ng-src="http://localhost:3000/{{ result.source.fileUrl }}">
+            </div>
+            <div class="col-sm-6">
+                <!--<iframe width="auto" height="290" src="https://sketchfab.com/models/c6d83594bcef4609aee4df9ddc653aeb/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>-->
+            </div>
+        </div>
+
         <hr>
         <div class="row">
             <div class="col-sm-6">
@@ -152,6 +160,8 @@
                 <p>Quality: {{ result.source.scanScanQuality }}</p>
             </div>
         </div>
+        <h4>STL Model</h4>
+        <iframe width="100%" height="400px" src="https://sketchfab.com/models/c6d83594bcef4609aee4df9ddc653aeb/embed" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>

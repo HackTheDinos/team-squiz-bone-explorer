@@ -19,7 +19,10 @@ Route::group(['prefix' => 'app'], function () {
     get('/{slug?}', 'AppController@getIndex')->where('slug', '(.*)?');
 });
 
-
 Route::group(['prefix' => 'api'], function () {
     Route::controller('search-stub', 'Api\SearchStubController');
+    Route::controller('animal-group', 'Api\AnimalGroupController');
+    Route::controller('author', 'Api\AuthorController');
+    Route::controller('media-type', 'Api\MediaTypeController');
+    Route::controller('museum', 'Api\MuseumController');
 });

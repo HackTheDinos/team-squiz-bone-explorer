@@ -229,12 +229,14 @@ class Search
      *
      * @return array
      */
-    public function search(array $terms)
+    public function search(array $terms, $from = 0, $size = 25, $group = false)
     {
         $params = [
             'index' => env('ES_INDEX'),
             'type' => $this->type,
             'body' => [
+                'from' => $from,
+                'size' => $size,
                 'query' => [
                     'multi_match' => [
                         'query' => $terms['keyword'],
@@ -243,6 +245,30 @@ class Search
                 ]
             ]
         ];
+
+        if ($group) {
+            $params['body']['aggs'] = [
+                "top-scanIds" => [
+                    "terms" => [
+                        "field" => "scanScanId"
+                    ],
+                    "aggs" => [
+                        "top_scanIds_hits" => [
+                            "top_hits" => [
+                                "sort" => [
+                                    [
+                                        "_score" => [
+                                            "order" => "desc"
+                                        ]
+                                    ]
+                                ],
+                                "size" => 1
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+        }
 
         return $this->client->search($params);
     }

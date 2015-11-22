@@ -13,10 +13,10 @@ class ImageSeeder extends Seeder
 
             $scans = Scan::all()->all();
             $images = [
-                'img/eusthenopteron_foordi.jpg',
-                'img/iridotriton_hechti.jpg',
-                'img/sipalocyon_sp.jpg',
-                'img/teinolophos_trusleri.jpg',
+                '/img/eusthenopteron_foordi.jpg',
+                '/img/iridotriton_hechti.jpg',
+                '/img/sipalocyon_sp.jpg',
+                '/img/teinolophos_trusleri.jpg',
             ];
 
             foreach ($scans as $scan) {

@@ -7,6 +7,8 @@ use Elasticsearch\Client;
 
 class Search
 {
+    const BATCH_INSERT_LIMIT = 5;
+
     /** @var Client */
     private $client;
     private $type = "dinos";
@@ -63,10 +65,12 @@ class Search
                     $this->type => [
                         'properties' => [
                             'created_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'updated_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'filePath' => [
                                 'type' => 'string',
@@ -168,10 +172,12 @@ class Search
                                 'type' => 'integer',
                             ],
                             'scanSpecimenCreated_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'scanSpecimenUpdated_at' => [
-                                'type' => 'date',
+                                'type' => 'string',
+                                'analyzer' => 'standard',
                             ],
                             'scanSpecimenSpecimenNumber' => [
                                 'type' => 'integer',
@@ -275,15 +281,19 @@ class Search
      */
     public function insertDocuments(array $docs)
     {
-        foreach ($docs as $doc) {
+        $params = [];
+        while (!empty($docs)) {
+            $doc = array_shift($docs);
             $params['body'][] = [
-                'index' => env('ES_INDEX'),
-                'type' => 'dino',
-                '_id' => uniqid(),
+                'index' => [
+                    '_index' => env('ES_INDEX'),
+                    '_type' => $this->type,
+                    '_id' => uniqid(),
+                ]
             ];
             $params['body'][] = $doc;
-        }
 
-        return $this->client->bulk($params);
+            $results = $this->client->bulk($params);
+        }
     }
 }

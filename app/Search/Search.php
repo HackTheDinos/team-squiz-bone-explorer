@@ -23,32 +23,112 @@ class Search
      */
     public function createIndex()
     {
-
-        $create = [
-            'index' => 'my_index',
+//        $this->client->indices()->delete(['index' => env('ES_INDEX')]);
+        $params = [
+            'index' => env('ES_INDEX'),
             'body' => [
                 'settings' => [
-                    'number_of_shards' => 3,
-                    'number_of_replicas' => 2
+                    'number_of_shards' => 1,
+                    'number_of_replicas' => 0,
                 ],
                 'mappings' => [
-                    'my_type' => [
-                        '_source' => [
-                            'enabled' => true,
-                            'properties' => [
-                                'first_name' => [
-                                    'type' => 'string',
-                                    'analyzer' => 'standard'
-                                ],
-                                'age' => [
-                                    'type' => 'integer'
-                                ]
+                    'dino' => [
+                        'properties' => [
+                            'speciesCommonName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'speciesScientificName' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanId' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard', // this may need to change.
+                            ],
+                            'author' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'museum' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'scanQuality' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard', // this may need to change.
+                            ],
+                            'fileLocation' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard', // this may need to change.
+                            ],
+                            'scanTime' => [
+                                'type' => 'date',
+                            ],
+                            'voltage' => [
+                                'type' => 'double',
+                            ],
+                            'imageCount' => [
+                                'type' => 'integer',
+                            ],
+                            'voxelSize' => [
+                                'type' => 'integer',
+                            ],
+                            'averaging' => [
+                                'type' => 'integer',
+                            ],
+                            'current' => [
+                                'type' => 'double',
+                            ],
+                            'timingValue' => [
+                                'type' => 'double',
+                            ],
+                            'imageDirectory' => [
+                                'type' => 'string',
+                                'analyzer' => 'standard',
+                            ],
+                            'sequence' => [
+                                'type' => 'integer',
+                            ],
+                            'images' => [
+                                'type' => 'nested',
                             ]
                         ]
                     ]
                 ]
             ]
         ];
+
+//        Specimen Number
+//Species Common Name
+//Species Scientific Name
+//Scan ID
+//Group
+//Museum
+//Author
+//Scan Quality
+//File location
+//When scan was taken
+//KiloVolts (KV) - voltage when ct was taken
+//Who scanned it (author?)
+//Voxel size
+//Number of images
+//Averaging (calibration - number of images to take and average image values)
+//Skip (averaging plus skip is total number of images)
+//Timing value
+//Current
+//sequence
+//image directory
+//Image
+//filename1
+//filename2
+//filename3
+//filename4
+
+
+
+
+        $this->client->indices()->create($params);
 
     }
 

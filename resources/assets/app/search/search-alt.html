@@ -21,44 +21,53 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2 page-container" style="border-right: solid 1px #eee;">
+        <div class="col-sm-3 page-container" style="border-right: solid 1px #eee;">
             <form role="search">
                 <div class="form-group">
                     <label>Author</label>
-                    <ui-select id="author" ng-model="search.author">
-                        <ui-select-match>{{$select.selected.name}}
-                        </ui-select-match>
+                    <ui-select multiple id="author" ng-model="search.filters.author">
+                        <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
-                                           repeat="filter.names author in authors | filter: $select.search">
-                            <div ng-bind-html="filter.name| highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
-                </div>
-                <div class="form-group">
-                    <label>Resolution</label>
-                    <ui-select id="resolution" ng-model="search.resolution">
-                        <ui-select-match>{{$select.selected.name}}
-                        </ui-select-match>
-                        <ui-select-choices group-by="'group'"
-                                           repeat="filter.names resolution in resolutions | filter: $select.search">
-                            <div ng-bind-html="filter.name| highlight: $select.search"></div>
+                                           repeat="author in search.authors | filter: $select.search">
+                            <div ng-bind-html="author.name| highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
                 <div class="form-group">
                     <label>Museum</label>
-                    <ui-select id="museum" ng-model="search.museum">
-                        <ui-select-match>{{$select.selected.name}}
-                        </ui-select-match>
+                    <ui-select multiple id="museum" ng-model="search.filters.museum">
+                        <ui-select-match>{{$item.name}}</ui-select-match>
                         <ui-select-choices group-by="'group'"
-                                           repeat="filter.names museum in museums | filter: $select.search">
-                            <div ng-bind-html="filter.name| highlight: $select.search"></div>
+                                           repeat="museum in search.museums | filter: $select.search">
+                            <div ng-bind-html="museum.name| highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <label>Media Type</label>
+                    <ui-select multiple id="media-type" ng-model="search.filters.mediaType">
+                        <ui-select-match>{{$item.name}}</ui-select-match>
+                        <ui-select-choices group-by="'group'"
+                                           repeat="mediaType in search.mediaTypes | filter: $select.search">
+                            <div ng-bind-html="mediaType.name| highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <label>Group</label>
+                    <ui-select multiple id="animal-group" ng-model="search.filters.animalGroup">
+                        <ui-select-match>{{$item.name}}</ui-select-match>
+                        <ui-select-choices group-by="'group'"
+                                           repeat="animalGroup in search.animalGroups | filter: $select.search">
+                            <div ng-bind-html="animalGroup.name| highlight: $select.search"></div>
                         </ui-select-choices>
                     </ui-select>
                 </div>
             </form>
         </div>
-        <div class="col-sm-10 page-container">
+        <div class="col-sm-9 page-container">
             <div class="row">
                 <div class="col-sm-6 col-md-4" ng-repeat="result in search.results">
                     <div class="thumbnail">

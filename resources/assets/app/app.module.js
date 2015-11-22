@@ -2,6 +2,7 @@
     angular.module('boneExplorer', [
     /** App */
         'boneExplorer.search',
+        'spinner',
     /** vendor */
         'eehNavigation',
         'ngAnimate',

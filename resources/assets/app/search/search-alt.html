@@ -1,20 +1,16 @@
 <div class="navbar navbar-default navbar-static-top" style="margin-bottom: 0;">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
         <a class="navbar-brand" href="#">Bone Explorer</a>
     </div>
-    <div class="navbar-collapse collapse" id="search-bar">
+
+    <div id="search-bar" class="hidden-sm hidden-xs">
         <form class="navbar-form" style="width: 65%;" ng-submit="search.submitQuery()">
             <div class="form-group" style="display:inline;">
                 <div class="input-group" style="display:table;">
                     <input class="form-control" name="search" autocomplete="off"
                            autofocus="autofocus" type="text" ng-model="search.query"
                            placeholder="find bones">
-                       <span class="input-group-btn" style="width:1%;">
+                      <span class="input-group-btn" style="width: 1%;">
                         <button class="btn btn-default" type="submit">
                             <span class="fa fa-search"></span>
                         </button>
@@ -23,6 +19,26 @@
             </div>
         </form>
     </div>
+</div>
+
+<div class="container-fluid hidden-md hidden-lg">
+    <p>
+
+    <form class="" style="" ng-submit="search.submitQuery()">
+        <div class="form-group" style="display:inline;">
+            <div class="input-group" style="display:table;">
+                <input class="form-control" name="search" autocomplete="off"
+                       autofocus="autofocus" type="text" ng-model="search.query"
+                       placeholder="find bones">
+                       <span class="input-group-btn" style="">
+                        <button class="btn btn-default" type="submit">
+                            <span class="fa fa-search"></span>
+                        </button>
+                      </span>
+            </div>
+        </div>
+    </form>
+    </p>
 </div>
 
 <div class="container-fluid">

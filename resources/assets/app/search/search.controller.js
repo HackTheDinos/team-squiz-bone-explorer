@@ -10,6 +10,7 @@
                               museumResource,
                               searchResource) {
         var vm = this;
+        vm.isNavbarCollapsed = true;
         vm.isLoaded = false;
         vm.filters = {
             author: [],

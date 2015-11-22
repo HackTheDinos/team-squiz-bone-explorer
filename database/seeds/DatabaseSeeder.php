@@ -19,6 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->call(MediaTypeSeeder::class);
         $this->call(MuseumSeeder::class);
 
+        $this->call(SpecimenSeeder::class);
+        $this->call(ScanSeeder::class);
+        $this->call(MediaSeeder::class);
+        $this->call(ImageSeeder::class);
+
         Model::reguard();
     }
 }

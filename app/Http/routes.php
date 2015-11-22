@@ -26,4 +26,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::controller('author', 'Api\AuthorController');
     Route::controller('media-type', 'Api\MediaTypeController');
     Route::controller('museum', 'Api\MuseumController');
+
+    Route::get('/', function () {
+        return view('api.index');
+    });
 });

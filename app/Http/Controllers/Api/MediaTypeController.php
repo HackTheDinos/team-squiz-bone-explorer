@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\ApiResponseFactory;
-use App\MediaType;
+use App\Models\MediaType;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;

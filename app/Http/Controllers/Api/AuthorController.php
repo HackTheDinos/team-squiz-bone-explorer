@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\ApiResponseFactory;
-use App\Author;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;

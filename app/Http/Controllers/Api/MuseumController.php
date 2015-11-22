@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\ApiResponseFactory;
-use App\Museum;
+use App\Models\Museum;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;

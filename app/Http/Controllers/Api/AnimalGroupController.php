@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\AnimalGroup;
+use App\Models\AnimalGroup;
 use App\ApiResponseFactory;
 use Illuminate\Http\Request;
 

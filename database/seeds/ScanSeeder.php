@@ -20,7 +20,7 @@ class ScanSeeder extends Seeder
             $authors = Author::all()->all();
             $animalGroups = AnimalGroup::all()->all();
 
-            for ($i=1; $i<=50; $i++) {
+            for ($i=1; $i<=500; $i++) {
                 Scan::create(
                     [
                         'scanId' => $faker->randomNumber(5),
@@ -34,8 +34,6 @@ class ScanSeeder extends Seeder
                         'voxelSize' => $faker->randomFloat(1, 0, 1) . 'mm',
                         'imageCount' => $faker->randomNumber(4),
                         'current' => '120v',
-                        'stlFile' => $faker->boolean() ? 'mystl.stl' : '',
-                        'vglFile' => $faker->boolean() ? 'myvgl.stl' : '',
                         'sequence' => $faker->randomNumber(4),
                         'specimenId' => $faker->randomElement($specimens)->id,
                         'museumId' => $faker->randomElement($museums)->id,

@@ -42,7 +42,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title"><a href="/app">Bone Explorer</a></div>
+                <div class="title"><a href="app">Bone Explorer</a></div>
             </div>
         </div>
     </body>

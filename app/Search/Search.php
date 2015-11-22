@@ -98,36 +98,7 @@ class Search
                 ]
             ]
         ];
-
-//        Specimen Number
-//Species Common Name
-//Species Scientific Name
-//Scan ID
-//Group
-//Museum
-//Author
-//Scan Quality
-//File location
-//When scan was taken
-//KiloVolts (KV) - voltage when ct was taken
-//Who scanned it (author?)
-//Voxel size
-//Number of images
-//Averaging (calibration - number of images to take and average image values)
-//Skip (averaging plus skip is total number of images)
-//Timing value
-//Current
-//sequence
-//image directory
-//Image
-//filename1
-//filename2
-//filename3
-//filename4
-
-
-
-
+        
         $this->client->indices()->create($params);
 
     }

@@ -1,7 +1,10 @@
 (function (angular) {
+    'use strict';
+
     angular.module('boneExplorer.search', [
     /** vendor */
         'ui.router',
-        'ui.select'
+        'ui.select',
+        'ngResource'
     ]);
 })(angular);

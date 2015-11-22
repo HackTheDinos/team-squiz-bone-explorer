@@ -1,0 +1,16 @@
+id,name
+1,Applet
+2,Coronal Slice Movie
+3,Horizontal Slice Movie
+4,Sagittal Slice Movie
+5,STL file
+6,DCT file
+7,Skeleton Roll Movie
+8,Skeleton Pitch Movie
+9,Skeleton Yaw Movie
+10,Surface Roll Movie
+11,Surface Pitch Movie
+12,Surface Yaw Movie
+13,Cutaway Coronal Movie
+14,Cutaway Horizontal Movie
+15,Cutaway Sagittal Movie

@@ -3,6 +3,7 @@
 /node_modules
 /public/build
 /public/css
+/public/img
 /public/js
 /vendor
 .env

@@ -36,6 +36,7 @@ elixir(function (mix) {
         proxy : 'bone-explorer.dev:8000'
     });
     mix.copy('./bower_components/font-awesome/fonts/**', 'public/build/fonts');
+    mix.copy('./resources/assets/img/**', 'public/img/');
 
     /**
      * Vendor CSS

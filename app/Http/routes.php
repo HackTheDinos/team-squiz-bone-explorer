@@ -21,6 +21,7 @@ Route::group(['prefix' => 'app'], function () {
 
 Route::group(['prefix' => 'api'], function () {
     Route::controller('search-stub', 'Api\SearchStubController');
+    Route::controller('search', 'Api\SearchController');
     Route::controller('animal-group', 'Api\AnimalGroupController');
     Route::controller('author', 'Api\AuthorController');
     Route::controller('media-type', 'Api\MediaTypeController');

@@ -105,16 +105,15 @@
 
                             <div class="caption">
                                 <h3>{{ result.source.scanSpecimenSpeciesScientificName }}</h3>
-
+                                <small>{{ result.source.scanSpecimenSpeciesCommonName }}</small>
+                                <hr>
                                 <p>Author: {{ result.source.scanAuthorName }}</p>
                                 <p>Group: {{ result.source.scanAnimal_groupName }}</p>
                                 <p>Museum: {{ result.source.scanMuseumName }}</p>
                                 <p>Media Type: {{ result.source.media_typeName }}</p>
-                                <hr>
-                                <p>{{ result.source.scanSpecimenSpeciesCommonName }}</p>
-                                <p>Date Scanned: {{ result.source.scanScanTime }}</p>
-                                <p>Location At: {{ result.source.scanLocation }}</p>
                                 <!--<p><a href="#" class="btn btn-primary" role="button">...</a></p>-->
+                                <button type="button" class="btn btn-default" ng-click="search.open('lg', result)">...</button>
+
                             </div>
                         </div>
                     </div>
@@ -123,3 +122,38 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{ result.source.scanSpecimenSpeciesScientificName}}
+            <small>{{ result.source.scanSpecimenSpeciesCommonName }}</small>
+        </h3>
+    </div>
+    <div class="modal-body">
+        <img alt="{{ result.name }}" class="img-responsive"
+             ng-src="http://localhost:3000/{{ result.source.fileUrl }}">
+        <hr>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4>General Categories</h4>
+                <p>Author: {{ result.source.scanAuthorName }}</p>
+                <p>Group: {{ result.source.scanAnimal_groupName }}</p>
+                <p>Museum: {{ result.source.scanMuseumName }}</p>
+                <p>Media Type: {{ result.source.media_typeName }}</p>
+            </div>
+            <div class="col-sm-6">
+                <h4>Scan Info</h4>
+                <p>Date: {{ result.source.scanScanTime }}</p>
+                <p>Location: {{ result.source.scanLocation }}</p>
+                <p>Current: {{ result.source.scanCurrent }}</p>
+                <p>Voxel Size: {{ result.source.scanVoxelSize }}</p>
+                <p>Voltage: {{ result.source.scanVoltage }}</p>
+                <p>Sequence: {{ result.source.scanSequence }}</p>
+                <p>Quality: {{ result.source.scanScanQuality }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    </div>
+</script>
